@@ -18,7 +18,6 @@ export default function NoteCreateForm() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const formRef = React.useRef<HTMLFormElement>(null);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -31,7 +30,6 @@ export default function NoteCreateForm() {
         if (result.errors?._form) {
             setError(result.errors._form.join(", "));
         } else {
-            event.currentTarget.reset();
             onClose();
             window.location.reload(); // Refresh to show the new note
         }
