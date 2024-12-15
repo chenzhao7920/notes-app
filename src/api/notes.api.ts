@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import axios from "axios"
 export type Note = {
     _id: string;
@@ -25,11 +24,12 @@ export const getNotes = async (limit?: number, page?: number) => {
 };
 
 interface CreateNoteFormState{
-  errors:{
+  errors?: {
     title?: string[]
     content?: string[]
     _form?: string[]
-  }
+  },
+  success?: boolean;
 }
 
 export const createNote = async (
@@ -42,22 +42,23 @@ export const createNote = async (
        note[key] = value as string;
     });
     const { data: { data, message, statusCode }  } = await axios.post(`${process.env.NEXT_PUBLIC_ROOT_URL}/notes`, note);
-
     if (!data){
        return {
           errors: {
             _form: [message],
           },
+          success: false
        }
     }
+    return { success: true };
   } catch (err) {
     return {
       errors: {
         _form: [(err as { message: string })?.message || "Something went wrong"],
       },
+      success: false
     };
   }
-  redirect(`/`);
 };
 
 export const updateNote = async (
@@ -82,6 +83,7 @@ export const updateNote = async (
         },
       };
     }
+    return { success: true };
   } catch (err) {
     return {
       errors: {
@@ -89,7 +91,6 @@ export const updateNote = async (
       },
     };
   }
-  redirect('/');
 };
 
 export const deleteNote = async (noteId: string) => {
