@@ -9,7 +9,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalFooter,
   useDisclosure
 } from "@nextui-org/react";
 import { createNote } from "@/api/notes.api";

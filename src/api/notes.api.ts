@@ -13,7 +13,7 @@ export const getNotes = async (limit?: number, page?: number) => {
     if (limit) params.append("limit", limit.toString());
     if (page) params.append("page", page.toString());
 
-    const { data: { data, message, statusCode } } = await axios.get(
+    const { data: { data } } = await axios.get(
       `${process.env.NEXT_PUBLIC_ROOT_URL}/notes?${params.toString()}`
     );
 
@@ -41,7 +41,7 @@ export const createNote = async (
     formData.forEach((value, key) => {
        note[key] = value as string;
     });
-    const { data: { data, message, statusCode }  } = await axios.post(`${process.env.NEXT_PUBLIC_ROOT_URL}/notes`, note);
+    const { data: { data, message }  } = await axios.post(`${process.env.NEXT_PUBLIC_ROOT_URL}/notes`, note);
     if (!data){
        return {
           errors: {
@@ -71,7 +71,7 @@ export const updateNote = async (
       note[key] = value as string;
     });
 
-    const { data: { data, message, statusCode } } = await axios.put(
+    const { data: { data, message } } = await axios.put(
       `${process.env.NEXT_PUBLIC_ROOT_URL}/notes/${noteId}`,
       note
     );

@@ -1,10 +1,23 @@
-import Image from "next/image";
-import { Button } from "@nextui-org/react";
-import { Note,getNotes  } from "@/api/notes.api"
+"use client";
+import { useEffect, useState } from "react";
+import { getNotes  } from "@/api/notes.api"
 import NoteCreateForm from "@/app/components/note_create_form"
 import NoteList from "./components/note_list";
-export default async function Home() {
-  const notes = await getNotes()
+export default function Home() {
+  const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+    async function fetchNotes() {
+      try {
+        const data = await getNotes();
+        setNotes(data);
+      } catch (error) {
+        console.error("Failed to fetch notes:", error);
+        setNotes([]); // Fallback data
+      }
+    }
+    fetchNotes();
+  }, []);
   return (
 
     <div className="grid grid-cols-6 gap-4 p-4 min-h-full bg-gray-100 ">
