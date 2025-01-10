@@ -18,8 +18,12 @@ export default function Home() {
           }
         };
         const {data: { data }} = await axios.get(url, config)
-        let notes = data?.map((e:any, i: number)=>({ _id: i, title: e?.code, content: e?.name }))
-        setNotes(notes);
+        interface Item {
+          code: string;
+          name: string;
+        }
+        const notes_ = data?.map((e: Item, i: number)=>({ _id: i, title: e?.code, content: e?.name }))
+        setNotes(notes_);
       } catch (error) {
         console.error("Failed to fetch notes:", error);
         setNotes([]); // Fallback data
